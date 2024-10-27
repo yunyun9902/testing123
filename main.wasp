@@ -1,0 +1,53 @@
+app MyPlants {
+  wasp: {
+    version: "^0.15.0"
+  },
+  title: "MyPlants",
+  client: {
+    rootComponent: import { Layout } from "@src/Layout.jsx",
+  },
+  auth: {
+    userEntity: User,
+    methods: {
+      usernameAndPassword: {}
+    },
+    onAuthFailedRedirectTo: "/login",
+    onAuthSucceededRedirectTo: "/"
+  },
+}
+
+route LoginRoute { path: "/login", to: LoginPage }
+page LoginPage {
+  component: import Login from "@src/pages/auth/Login.jsx"
+}
+route SignupRoute { path: "/signup", to: SignupPage }
+page SignupPage {
+  component: import Signup from "@src/pages/auth/Signup.jsx"
+}
+
+action createPlant {
+  fn: import { createPlant } from "@src/actions.js",
+  entities: [Plant]
+}
+
+action waterPlant {
+  fn: import { waterPlant } from "@src/actions.js",
+  entities: [Plant]
+}
+
+query getPlants {
+  fn: import { getPlants } from "@src/queries.js",
+  entities: [Plant]
+}
+
+route HomeRoute { path: "/", to: HomePage }
+page HomePage {
+  component: import HomePage from "@src/pages/Home.jsx",
+  authRequired: true
+}
+
+route AddPlantRoute { path: "/add-plant", to: AddPlantPage }
+page AddPlantPage {
+  component: import AddPlantPage from "@src/pages/AddPlant.jsx",
+  authRequired: true
+}
